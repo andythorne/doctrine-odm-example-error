@@ -1,0 +1,24 @@
+version: '3.4'
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      VERSION: dev
+      PHP_IDE_CONFIG: serverName=doctrine-bug-test
+      XDEBUG_CONFIG: "mode=debug start_with_request=yes discover_client_host=false client_host=host.docker.internal"
+    ports:
+      - 9003:9003
+    volumes:
+      - .:/app:cached
+
+  mongo:
+    image: mongo:4.0
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodata:/data/db
+
+volumes:
+  mongodata:
